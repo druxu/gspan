@@ -211,6 +211,7 @@ class gSpan(object):
         self._visualize = visualize
         self._where = where
         self.timestamps = dict()
+        self._frequency = 0
         if self._max_num_vertices < self._min_num_vertices:
             print('Max number of vertices can not be smaller than '
                   'min number of that.\n'
@@ -318,9 +319,13 @@ class gSpan(object):
     def _get_support(self, projected):
         return len(set([pdfs.gid for pdfs in projected]))
 
-    def _report_size1(self, g, support):
+    def _get_frequency(self, projected):
+        return len(projected)
+    
+    def _report_size1(self, g, support, frequency=None):
         g.display()
         print('\nSupport: {}'.format(support))
+        print('\nFrequency: {}'.format(frequency))
         print('\n-----------------\n')
 
     def _report(self, projected):
@@ -331,17 +336,25 @@ class gSpan(object):
                                    is_undirected=self._is_undirected)
         display_str = g.display()
         print('\nSupport: {}'.format(self._support))
+        print('\nFrequency: {}'.format(self._frequency))
+        print('\nDFS code: {}'.format(repr(self._DFScode)))
+
 
         # Add some report info to pandas dataframe "self._report_df".
-        self._report_df = self._report_df.append(
-            pd.DataFrame(
-                {
-                    'support': [self._support],
-                    'description': [display_str],
-                    'num_vert': self._DFScode.get_num_vertices()
-                },
-                index=[int(repr(self._counter)[6:-1])]
-            )
+        self._report_df = pd.concat(
+            [
+                self._report_df,
+                pd.DataFrame(
+                    {
+                        'support': [self._support],
+                        'description': [display_str],
+                        'num_vert': [self._DFScode.get_num_vertices()],
+                        'frequency': [self._frequency]
+                    },
+                    index=[int(repr(self._counter)[6:-1])]
+                )
+            ],
+            ignore_index=True
         )
         if self._visualize:
             g.plot()
@@ -510,6 +523,10 @@ class gSpan(object):
             return
         if not self._is_min():
             return
+        
+        # Increment the frequency counter for the mined pattern
+        self._frequency = self._get_frequency(projected)
+
         self._report(projected)
 
         num_vertices = self._DFScode.get_num_vertices()
