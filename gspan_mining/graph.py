@@ -124,7 +124,7 @@ class Graph(object):
                             frm, to, edges[to].elb)
                 else:
                     print('e {} {} {}'.format(frm, to, edges[to].elb))
-                    display_str += 'e {} {} {}'.format(frm, to, edges[to].elb)
+                    display_str += 'e {} {} {} '.format(frm, to, edges[to].elb)
         return display_str
 
     def plot(self):

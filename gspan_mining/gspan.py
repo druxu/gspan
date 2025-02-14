@@ -347,7 +347,7 @@ class gSpan(object):
                 pd.DataFrame(
                     {
                         'support': [self._support],
-                        'description': [display_str],
+                        'canonical_code': [display_str],
                         'num_vert': [self._DFScode.get_num_vertices()],
                         'frequency': [self._frequency]
                     },
