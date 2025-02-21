@@ -349,7 +349,8 @@ class gSpan(object):
                         'support': [self._support],
                         'canonical_code': [display_str],
                         'num_vert': [self._DFScode.get_num_vertices()],
-                        'frequency': [self._frequency]
+                        'frequency': [self._frequency],
+                        'location': [list(set([p.gid for p in projected]))]
                     },
                     index=[int(repr(self._counter)[6:-1])]
                 )
