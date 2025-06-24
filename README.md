@@ -1,5 +1,8 @@
 # <div align = center>gSpan</div>
 
+This is a modified version of the existing gSpan mining library, made to work with current versions of Python and fixing bugs present within the code. It also keeps track of frequency as well as support.
+
+
 ##### For Chinese readme, please go to [README-Chinese](https://github.com/betterenvi/gSpan/blob/master/README-Chinese.md). 
 
 **gSpan** is an algorithm for mining frequent subgraphs.
